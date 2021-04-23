@@ -45,7 +45,6 @@ void loop() {
   }
   if (opcion == 0)
   {
-    //Serial.println("holi");
     opcion = Serial.parseInt();
     if (opcion != 0)
     {
@@ -118,46 +117,46 @@ void imagen(int &opcion)
   //Serial.println("Ingrese la fila");
   char f = 'x';
 
-  if (contador_char < 8) {
-    if (j == 0)
+  if (j < 8)
+  {
+    if (contador_char < 8)
     {
       f = Serial.read();
-      if ( f == '*' ||  f == 'o') {
-        //for (contador_char; contador_char < 8; contador_char++) {
+      if ( f == '*' ||  f == 'o')
+      {
         m[contador_char] = f;
-        //Serial.println(m[contador_char]);
-        //Serial.println(contador_char);
         contador_char ++;
         f = 'x';
       }
-      if (contador_char == 7)
+      if (contador_char == 8)
       {
         for (int i = 0; i < 8; i++)
         {
           if (m[i] == '*')
-            *(*(a) + i) = 0;
+            *(*(a) + i + 8 * j) = 0;
 
 
           else
-            *(*(a) + i) = 1;
+            *(*(a) + i + 8 * j) = 1;
           if (i == 7) {
-            for (int i = 0; i < 64; i++)
+            contador_char = 0;
+            for (int i = 0; i < 8; i++)
             {
-              Serial.print(*(*(a) + i));
+              Serial.print(*(*(a) + i + 8 * j));
               Serial.print(' ');
               if ((i + 1) % 8 == 0) Serial.println(' ');
-              j++;
             }
+            j++;
           }
         }
       }
-
     }
-    else {
-      opcion = 0;
-      opcion_menu = true;
-      contador_char = 0;
-    }
+  }
+  else {
+    opcion = 0;
+    opcion_menu = true;
+    contador_char = 0;
+    Serial.println(j);
 
     /* //if (Serial.available() == 0)
       {
