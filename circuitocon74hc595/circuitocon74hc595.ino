@@ -4,17 +4,19 @@ int SER  = 2;
 int SRCLK = 3;
 int RCLK = 4;
 
+int ingresar = 0;
 int a[8][8];
 bool opcion_menu;
 bool seleccion;
 int opcion;
 char m[8];
+int contador_char = 0;
 
 //DECLARACION DE FUNCIONES (PROTOTIPOS
 
 void clockUpRCLK();
 void verificacion(int &);
-void imagen(int &opcion);
+void imagen(int &);
 
 
 void setup()
@@ -48,17 +50,18 @@ void loop() {
     {
       Serial.println("Su opcion es: ");
       Serial.println(opcion);
+      Serial.flush();
       seleccion = false;
-      opcion_menu = true;
+      //opcion_menu = true;
 
     }
   }
 
 
-  if (opcion == 1) 
+  if (opcion == 1)
     verificacion(opcion);
 
-  // else if (opcion == 2) imagen();
+  else if (opcion == 2) imagen(opcion);
 
 
 }
@@ -107,31 +110,60 @@ void verificacion (int &opcion)
   */
 }
 
-/*  void imagen() {
-  digitalWrite(SRCLK, LOW);
-  //
-  Serial.println("Ingrese la fila");
+void imagen(int &opcion)
+{
+  //digitalWrite(SRCLK, LOW);
 
-
-  // for (int i=0; i<8; i++)*(*(a)+i);
-  for (int i=0; i<64; i++){
-
-    digitalWrite(SER,*(*(a)+i));
-
-    clock();
-
-  }
-  digitalWrite(SRCLK, HIGH);
-  delay(2000);
-  digitalWrite(SRCLK, LOW);
-  for (int i=0; i<64; i++)*(*(a)+i)=0;
-  for (int i=0; i<64; i++){
-
-    digitalWrite(SER,*(*(a)+i));
-    clock();
-  }
-  digitalWrite(SRCLK, HIGH);
-  //  opcion = 0;
+  //Serial.println("Ingrese la fila");
+  char f = 'x';
+  if (contador_char < 8) {
+    f = Serial.read();
+    if ( f == '*' ||  f == 'o') {
+      //for (contador_char; contador_char < 8; contador_char++) {
+      m[contador_char] = f;
+      Serial.println(m[contador_char]);
+      Serial.println(contador_char);
+      contador_char ++;
+      f = 'x';
+    }
 
   }
-*/
+  else {
+    opcion = 0;
+    opcion_menu = true;
+    contador_char = 0;
+  }
+
+  /* //if (Serial.available() == 0)
+    {
+     for (contador_char; contador_char < 8; contador_char++) {
+       m[contador_char] = Serial.read();
+       Serial.println(m[contador_char]);
+       Serial.println(contador_char);
+     }
+
+     if (contador_char == 7)
+     {
+       opcion = 0;
+       opcion_menu = true;
+     }
+     /*  //for (int i = 0; i < 64; i++) {
+
+       digitalWrite(SER, *(*(a) + i));
+
+       clock();
+
+       }
+       digitalWrite(SRCLK, HIGH);
+       delay(2000);
+       digitalWrite(SRCLK, LOW);
+       for (int i = 0; i < 64; i++)*(*(a) + i) = 0;
+       for (int i = 0; i < 64; i++) {
+
+       digitalWrite(SER, *(*(a) + i));
+       clock();
+       }
+       digitalWrite(SRCLK, HIGH);
+       //  opcion = 0;
+  */
+}
